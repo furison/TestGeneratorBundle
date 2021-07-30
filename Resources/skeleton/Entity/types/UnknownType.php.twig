@@ -1,0 +1,16 @@
+
+
+	public function testSet{{ propname |capitalize }}()
+    {
+        $entity = new {{ classname }}();
+		$this->markTestSkipped('Unknown database type found, skipping');
+    }
+    
+	/*
+	 * @depends testSet{{ propname |capitalize }}
+	 */
+    public function testGet{{ propname |capitalize }}()
+	{
+		$entity = new {{ classname }}();
+		$this->markTestSkipped('Unknown database type found, skipping');
+	}

@@ -1,0 +1,27 @@
+
+
+	public function testSet{{ propname |capitalize }}()
+    {
+        $entity = new {{ classname }}();
+		$entity->set{{ propname |capitalize }}(true);
+
+		//reflect the class to avoid using the get function
+        //and directly access the property
+        $reflector = new \ReflectionClass($entity);
+        $property = $reflector->getProperty( '{{ propname }}' );
+		$property->setAccessible( true );
+		$funcResult = $property->getValue($entity);
+		$this->assertIsBool($funcResult); 
+		$this->assertEquals(true, $funcResult); 
+    }
+	/**
+	 * @depends testSet{{ propname |capitalize }}
+	 */
+    public function testGet{{ propname |capitalize }}()
+	{
+		$entity = new {{ classname }}();
+		$entity->set{{ propname |capitalize }}(true);
+		$funcResult = $entity->get{{ propname |capitalize }}();
+		$this->assertIsBool($funcResult);
+		$this->assertEquals(true, $funcResult); 
+	}

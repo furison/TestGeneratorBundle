@@ -1,0 +1,42 @@
+
+
+    public function testSet{{ propname |capitalize }}()
+    {
+        $entity = new {{ classname }}();
+
+        //set property to a long line of text
+        $testText = <<< EOT
+This is a test text entry. As you can see it has multiple lines and is
+much longer than the string type. But it essentially has the same kind
+of data and the same kind of tests.
+EOT;
+		$entity->set{{ propname |capitalize }}($testText);
+
+        //reflect the class to avoid using the get function
+        //and directly access the property
+        $reflector = new \ReflectionClass($entity);
+        $property = $reflector->getProperty( '{{ propname }}' );
+		$property->setAccessible( true );
+		$funcResult = $property->getValue($entity);
+		$this->assertIsString($funcResult); 
+		$this->assertEquals($testText, $funcResult); 
+    }
+    /**
+     * @depends testSet{{ propname |capitalize }}
+     */
+    public function testGet{{ propname |capitalize }}()
+	{
+		$entity = new {{ classname }}();
+        
+        //set property to a long line of text
+        $testText = <<< EOT
+This is a test text entry. As you can see it has multiple lines and is
+much longer than the string type. But it essentially has the same kind
+of data and the same kind of tests.
+EOT;
+		$entity->set{{ propname |capitalize }}($testText);
+
+		$funcResult = $entity->get{{ propname |capitalize }}();
+		$this->assertIsString($funcResult); 
+		$this->assertEquals($testText, $funcResult); 
+	}

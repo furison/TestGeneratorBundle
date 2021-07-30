@@ -1,0 +1,21 @@
+
+    /**
+    * Test get Id
+    */
+    public function testGetId ()
+    {
+        //creted reflected class
+        $refClass = new \ReflectionClass('{{ namespace }}\{{ classname }}');
+        //get private property and make it accessible
+        $idProp = $refClass->getProperty('id');
+        $idProp->setAccessible(true);
+
+        //instantiate class
+        $entity = new {{ classname }}();
+
+        //set value of id and test
+        $idProp->setValue($entity, 123);
+        $var = $entity->getId();
+        $this->assertIsInt($var); 
+        $this->assertEquals($var, 123);
+    }

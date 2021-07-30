@@ -1,0 +1,3 @@
+furison_test_generator_homepage:
+    path:     /furison
+    defaults: { _controller: FurisonTestGeneratorBundle:Default:index }

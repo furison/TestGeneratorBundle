@@ -1,0 +1,38 @@
+
+
+	public function testSet{{ propname |capitalize }}()
+    {
+        $entity = new {{ classname }}();
+		$entity->set{{ propname |capitalize }}(array(1=>'First', 'Two' => 'Second'));
+
+		//reflect the class to avoid using the get function
+        //and directly access the property
+        $reflector = new \ReflectionClass($entity);
+        $property = $reflector->getProperty( '{{ propname }}' );
+		$property->setAccessible( true );
+		$funcResult = $property->getValue($entity);
+		
+		//check array has 2 elements
+		$this->assertIsArray($funcResult); 
+		$this->assertCount(2, $funcResult);
+		$this->assertArrayHasKey(1, $funcResult);
+		$this->assertArrayHasKey('Two', $funcResult);
+		$this->assertContains('First', $funcResult);
+		$this->assertContains('Second', $funcResult);
+    }
+    
+	/**
+	 * @depends testSet{{ propname |capitalize }}
+	 */
+    public function testGet{{ propname |capitalize }}()
+	{
+		$entity = new {{ classname }}();
+		$entity->set{{ propname |capitalize }}(array(1=>'First', 'Two' => 'Second'));
+		$funcResult = $entity->get{{ propname |capitalize }}();
+		$this->assertIsArray($funcResult); 
+		$this->assertCount(2, $funcResult);
+		$this->assertArrayHasKey(1, $funcResult);
+		$this->assertArrayHasKey('Two', $funcResult);
+		$this->assertContains('First', $funcResult);
+		$this->assertContains('Second', $funcResult);
+	}
